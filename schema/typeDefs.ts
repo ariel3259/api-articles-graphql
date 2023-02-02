@@ -11,4 +11,8 @@ export const typeDefs: string = `
         price: Float
         stock: Int
     }
+
+    type Mutation {
+        createArticle(name: String!, price: Float!, stock: Int!): ArticlesResponse
+    }
 `

@@ -4,12 +4,13 @@ export default class Articles {
    price: number;
    stock: number;
    createdAt: Date;
-
-   constructor(i: number, n: string, p: number, s: number, ct: Date) {
-      this.id = i;
-      this.name = n;
-      this.price = p;
-      this.stock = s;
-      this.createdAt = ct;
+   updatedAt: Date;
+   constructor(i?: number, n?: string, p?: number, s?: number, ct?: Date, ut?: Date) {
+      if(i) this.id = i;
+      if(n) this.name = n;
+      if(p) this.price = p;
+      if(s) this.stock = s;
+      if(ct) this.createdAt = ct;
+      if(ut) this.updatedAt = ut;
    }
 }
