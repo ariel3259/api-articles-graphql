@@ -14,5 +14,7 @@ export const typeDefs: string = `
 
     type Mutation {
         createArticle(name: String!, price: Float!, stock: Int!): ArticlesResponse
+        updateArticle(id: ID!, name: String, price: Float, stock: Int): ArticlesResponse
+        deleteArticle(id: ID!): Boolean
     }
 `

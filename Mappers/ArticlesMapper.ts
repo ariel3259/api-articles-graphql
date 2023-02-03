@@ -4,9 +4,9 @@ import ArticlesRequest from "../dto/articlesRequest";
 import ArticlesResponse from "../dto/ArticlesResponse";
 import ArticlesUpdate from "../dto/ArticlesUpdate";
 
-export default class ArticesMapper implements IMapper<Articles, ArticlesRequest, ArticlesResponse, ArticlesUpdate> {
+export default class ArticlesMapper implements IMapper<Articles, ArticlesRequest, ArticlesResponse, ArticlesUpdate> {
     mapRequest(req: ArticlesRequest): Articles {
-        return new Articles(undefined, req.name, req.price, req.stock, new Date(), new Date());
+        return new Articles(undefined, req.name, req.price, req.stock);
     }
     mapResponse(ent: Articles): ArticlesResponse {
         return new ArticlesResponse(ent.id, ent.name, ent.price, ent.stock);
@@ -14,7 +14,10 @@ export default class ArticesMapper implements IMapper<Articles, ArticlesRequest,
     mapResponses(ents: Articles[]): ArticlesResponse[] {
         return ents.map<ArticlesResponse>((x: Articles) => new ArticlesResponse(x.id, x.name, x.price, x.stock));
     }
-    mapUpdate(update: ArticlesUpdate): Articles {
-        return new Articles(undefined, update.name, update.price, update.stock, undefined, new Date());
+    mapUpdate(update: ArticlesUpdate, entity: Articles): Articles {
+        if(update.name) entity.name = update.name;
+        if(update.price) entity.price = update.price;
+        if(update.stock) entity.stock = update.stock
+        return entity;
     }
 }

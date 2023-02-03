@@ -1,16 +1,20 @@
-export default class Articles {
+import IBaseEntity from "../interfaces/BaseEntity";
+
+export default class Articles implements IBaseEntity {
    id: number;
    name: string;
    price: number;
    stock: number;
-   createdAt: Date;
-   updatedAt: Date;
-   constructor(i?: number, n?: string, p?: number, s?: number, ct?: Date, ut?: Date) {
-      if(i) this.id = i;
-      if(n) this.name = n;
-      if(p) this.price = p;
-      if(s) this.stock = s;
-      if(ct) this.createdAt = ct;
-      if(ut) this.updatedAt = ut;
+   public createdAt: Date;
+   public updatedAt: Date;
+   public status: boolean;
+   constructor(i?: number, n?: string, p?: number, s?: number, st?: boolean) {
+      this.id = i ? i : 0;
+      this.name = n ? n : '';
+      this.price = p ? p : 0;
+      this.stock = s ? s : 0;
+      this.createdAt = new Date();
+      this.updatedAt = new Date();
+      this.status = true;
    }
 }
