@@ -1,5 +1,5 @@
 export default class ArticlesUpdate {
-    id: number
+    id: number;
     name?: string;
     price?: number;
     stock?: number;

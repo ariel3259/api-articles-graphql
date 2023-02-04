@@ -1,44 +1,41 @@
-import IBaseEntity from "../interfaces/BaseEntity";
+import { InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import IMapper from "../interfaces/IMapper";
+import IRepository from "../interfaces/IRepository";
 
-export default class BasicService<Ent extends IBaseEntity, Req, Res, Upd> {
+export default class BasicService<Ent extends Model , Req, Res, Upd> {
     private mapper: IMapper<Ent, Req, Res, Upd>;
-    private entities: Ent[];
+    private repository: IRepository<Ent>;
 
-    constructor(mapper: IMapper<Ent, Req, Res, Upd>, entities: Ent[]) {
+    constructor(mapper: IMapper<Ent, Req, Res, Upd>, repository: IRepository<Ent>) {
         this.mapper = mapper;
-        this.entities = entities;
+        this.repository = repository;
     }
 
-    getAll(): Res[] {
-        return this.mapper.mapResponses(this.entities);
+    async getAll(): Promise<Res[]> {
+        return this.mapper.mapResponses(await this.repository.findAll());
     }
 
-    getOne(id: number): Res | undefined {
-        const entity: Ent | undefined = this.entities.find((x: Ent) => x.id === id && x.status);
-        if(!entity) return undefined;
+    async getOne(id: number): Promise<Res | null> {
+        const entity: Ent | null = await this.repository.findOne(id);
+        if(!entity) return null;
         else return this.mapper.mapResponse(entity);
     }
 
-    save(request: Req): Res {
+    async save(request: Req): Promise<Res> {
         const entity: Ent = this.mapper.mapRequest(request);
-        entity.id = this.entities.length + 1;
-        this.entities.push(entity);
-        return this.mapper.mapResponse(entity);
+        const entityCreated: Ent = await this.repository.create(entity)
+        return this.mapper.mapResponse(entityCreated);
     }
 
-    update(update: Upd, id: number): Res | null {
-        const entity: Ent | undefined = this.entities.find((x: Ent) => x.id === id && x.status);
+    async update(update: Upd, id: number): Promise<Res | null> {
+        const entity: Ent | null = await this.repository.findOne(id);
         if(!entity) return null;
-        const entityModified: Ent = this.mapper.mapUpdate(update, entity);
-        this.entities[id - 1] = entityModified;
-        return this.mapper.mapResponse(entityModified);
+        const entityToUpdate: Ent = this.mapper.mapUpdate(update, entity);
+        const entityUpdated: Ent = await this.repository.update(entityToUpdate, id);
+        return this.mapper.mapResponse(entityUpdated);
     }
 
-    delete(id: number): boolean {
-        const entity: Ent | undefined = this.entities.find((x: Ent) => x.id === id && x.status);
-        if(!entity) return false;
-        this.entities[entity.id - 1].status = false;
-        return true
+    async delete(id: number): Promise<boolean> {
+        return await this.repository.delete(id);
     }
 }

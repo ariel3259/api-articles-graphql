@@ -1,14 +1,16 @@
-import IBaseEntity from "../interfaces/BaseEntity";
+import { DataTypes, Model } from "sequelize";
+import {sequelize} from '../utils/dbCon';
 
-export default class Articles implements IBaseEntity {
-   id: number;
-   name: string;
-   price: number;
-   stock: number;
-   public createdAt: Date;
-   public updatedAt: Date;
-   public status: boolean;
+class Articles extends Model{
+   declare id: number;
+   declare name: string;
+   declare price: number;
+   declare stock: number;
+   declare createdAt: Date;
+   declare updatedAt: Date;
+   declare status: boolean;
    constructor(i?: number, n?: string, p?: number, s?: number, st?: boolean) {
+      super();
       this.id = i ? i : 0;
       this.name = n ? n : '';
       this.price = p ? p : 0;
@@ -18,3 +20,22 @@ export default class Articles implements IBaseEntity {
       this.status = true;
    }
 }
+Articles.init({
+   id: {
+      primaryKey: true,
+      field: 'articles_id',
+      autoIncrement: true,
+      type: DataTypes.INTEGER
+   },
+   name: DataTypes.STRING(150),
+   price: DataTypes.FLOAT,
+   stock: DataTypes.INTEGER,
+   createdAt: DataTypes.DATE,
+   updatedAt: DataTypes.DATE
+}, {
+   underscored: true,
+   sequelize,
+   schema: 'articles_s'
+});
+
+export default Articles

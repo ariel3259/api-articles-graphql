@@ -9,6 +9,7 @@ export default class ArticlesMapper implements IMapper<Articles, ArticlesRequest
         return new Articles(undefined, req.name, req.price, req.stock);
     }
     mapResponse(ent: Articles): ArticlesResponse {
+        console.log(new ArticlesResponse(ent.id, ent.name, ent.price, ent.stock))
         return new ArticlesResponse(ent.id, ent.name, ent.price, ent.stock);
     }
     mapResponses(ents: Articles[]): ArticlesResponse[] {
@@ -18,6 +19,7 @@ export default class ArticlesMapper implements IMapper<Articles, ArticlesRequest
         if(update.name) entity.name = update.name;
         if(update.price) entity.price = update.price;
         if(update.stock) entity.stock = update.stock
+        entity.updatedAt = new Date();
         return entity;
     }
 }
