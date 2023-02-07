@@ -4,6 +4,7 @@
     "graphql": "^16.6.0",
     "graphql-yoga": "^3.4.1",
     "pg": "^8.9.0",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.28.0",
     "ts-node": "^10.9.1"
   },

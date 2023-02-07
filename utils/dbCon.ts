@@ -6,5 +6,6 @@ export const sequelize: Sequelize = new Sequelize({
     username: process.env.USERNAME_DB,
     password: process.env.PASSWORD,
     port: parseInt(`${process.env.PORT_DB}`),
-    database: process.env.DATABASE
+    database: process.env.DATABASE,
+    schema: 'articles_s'
 });

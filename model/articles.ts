@@ -27,15 +27,15 @@ Articles.init({
       autoIncrement: true,
       type: DataTypes.INTEGER
    },
-   name: DataTypes.STRING(150),
+   name: new DataTypes.STRING(150),
    price: DataTypes.FLOAT,
    stock: DataTypes.INTEGER,
    createdAt: DataTypes.DATE,
-   updatedAt: DataTypes.DATE
+   updatedAt: DataTypes.DATE,
+   status: DataTypes.BOOLEAN
 }, {
    underscored: true,
-   sequelize,
-   schema: 'articles_s'
+   sequelize
 });
 
 export default Articles

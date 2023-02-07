@@ -24,7 +24,7 @@ export default class BasicService<Ent extends Model , Req, Res, Upd> {
     async save(request: Req): Promise<Res> {
         const entity: Ent = this.mapper.mapRequest(request);
         const entityCreated: Ent = await this.repository.create(entity)
-        return this.mapper.mapResponse(entityCreated);
+        return this.mapper.mapResponse(entity);
     }
 
     async update(update: Upd, id: number): Promise<Res | null> {
